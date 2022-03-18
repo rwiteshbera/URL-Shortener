@@ -15,7 +15,7 @@ function App() {
   const [inputURL, setInputURL] = useState("");
   const [showShortedURL, setShowShortedURL] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
-
+ 
   const onChangeInput = (e) => {
     setInputURL(e.target.value);
   };
@@ -44,7 +44,6 @@ function App() {
   return (
     <div className="container-custom">
       <h1 id="heading">Hello, I am URL Shortener</h1>
-
       <form onSubmit={handleSubmit}>
         <input
           placeholder="Shorten your URL"

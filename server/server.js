@@ -7,7 +7,6 @@ const server = http.createServer(app);
 const cors = require("cors");
 const ShortUniqueId = require("short-unique-id");
 const bodyParser = require("body-parser");
-const e = require("cors");
 const PORT = process.env.PORT || 8080;
 
 const DB = "mongodb://localhost:27017/urlShortener";
