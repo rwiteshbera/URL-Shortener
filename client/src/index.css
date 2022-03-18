@@ -5,7 +5,15 @@
 }
 
 body {
-  text-align: center;
-  display: flex;
-  justify-content: center;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+  background-attachment: fixed;
+}
+
+
+body::after {
+  display: block;
+  background-attachment: fixed;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }

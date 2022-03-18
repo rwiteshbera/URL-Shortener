@@ -3,17 +3,25 @@
 
 
 .container-custom {
+  color: black;
   border: 2px solid rgb(183, 183, 245);
-  width: 50vmax;
-  padding: 2rem 1.5rem;
+  height: 50vh;
+  padding: 2rem 1rem;
   margin: 0 auto;
   margin-top: 10vmin;
   font-family: 'Roboto', sans-serif; 
   text-align: center;
   border-radius: 2rem;
   background-color: rgb(183, 183, 245);
+  width: max-content;
+  position: fixed;
+  right: 5%;
+  top: 5%;
 }
 
+#heading {
+  font-size: 4vh;
+}
 #fullURL {
   width: 35vw;
   margin: 1rem;
@@ -26,6 +34,11 @@
   outline: none;
 }
 
-#showShortedURL{
-  margin-top: 2rem;
+#alias-form{
+  width: 55% !important;
+  margin: auto;
+}
+
+Button {
+  margin-right: 0.2rem !important;
 }
