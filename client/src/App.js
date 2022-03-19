@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const serverURL = "http://localhost:8080/";
-const clientURL = "http://localhost:3001/";
+const redirectionURL = "http://localhost:5000/";
 
 var socket = io(serverURL);
 
@@ -61,7 +61,7 @@ function App() {
         
       <InputGroup className="mb-3" id="alias-form">
         <Button variant="secondary" id="button-addon1">
-          {clientURL}
+          {redirectionURL}
         </Button>
         <FormControl 
           onChange={disableUIDchange}
@@ -69,7 +69,7 @@ function App() {
         />
       </InputGroup>
 
-      <CopyToClipboard text={`${clientURL}${showShortedURL}`}>
+      <CopyToClipboard text={`${redirectionURL}${showShortedURL}`}>
         <Button variant="primary" onClick={Copy}>
           {copyButtonText}
         </Button>
