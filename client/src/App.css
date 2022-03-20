@@ -1,44 +1,91 @@
 /* Roboto  */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+/* Righteous */
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
 
+/* Signika Negative */
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative&display=swap');
+
+.container {
+  display: flex;
+  width: 100vw;
+  margin: 0 auto;
+  margin-top: 15vmin;
+  flex-wrap: wrap;
+}
+
+.left-section {
+  margin-top: 2rem;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 900;
+  background: #121fcf;
+  background: -webkit-linear-gradient(to right, #121fcf 0%, #cf1512 100%);
+  background: -moz-linear-gradient(to right, #121fcf 0%, #cf1512 100%);
+  background: linear-gradient(to right, #121fcf 0%, #cf1512 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Righteous', cursive;
+}
+
+.subtitle {
+  font-family: 600;
+  font-size: 1.5rem;
+  font-family: 'Righteous', cursive;
+}
+
+.features {
+  font-family: 'Signika Negative', sans-serif;
+}
+
+.features > :first-child {
+  margin-top: 2rem;
+}
 .container-custom {
   color: black;
   border: 2px solid rgb(183, 183, 245);
-  height: 50vh;
+  height: fit-content;
   padding: 2rem 1rem;
   margin: 0 auto;
-  margin-top: 10vmin;
-  font-family: 'Roboto', sans-serif; 
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
   text-align: center;
   border-radius: 2rem;
   background-color: rgb(183, 183, 245);
-  width: max-content;
-  position: fixed;
-  right: 5%;
-  top: 5%;
+  width: 95vmin;
 }
 
 #heading {
   font-size: 4vh;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #fullURL {
-  width: 35vw;
+  width: 70%;
   margin: 1rem;
-  padding: 0.35em 0.85em; 
+  padding: 0.35em 0.85em;
   border-radius: 1rem;
   border: none;
 }
 
-#fullURL:focus{
+#fullURL:focus {
   outline: none;
 }
 
-#alias-form{
-  width: 55% !important;
+#alias-form {
+  width: 65% !important;
   margin: auto;
 }
 
-Button {
+#shorten-btn {
   margin-right: 0.2rem !important;
+  margin-bottom: 1rem;
+}
+
+#btn {
+  margin: 0.5em;
 }

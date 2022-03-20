@@ -41,8 +41,18 @@ function App() {
   }
 
   return (
-    <div className="container-custom">
-      <h1 id="heading">Hello, I am URL Shortener</h1>
+    <div className="container">
+      <div className="left-section">
+        <div className="title">MiniURL</div>
+        <h4 className="subtitle">Shorten your long URL into a mini URL</h4>
+        <div className="features">
+          <h5>1. Easy Link Shortening</h5>
+          <h5>2. Redirect any link</h5>
+          <h5>3. User friendly and accessible</h5>
+        </div>
+      </div>
+      <div className="container-custom">
+      <h1 id="heading">Enter a long url to make a mini URL</h1>
       <form onSubmit={handleSubmit}>
         <input
           placeholder="Shorten your URL"
@@ -69,13 +79,14 @@ function App() {
       </InputGroup>
 
       <CopyToClipboard text={`${REDIRECTION_SERVER}${showShortedURL}`}>
-        <Button variant="primary" onClick={Copy}>
+        <Button variant="primary" onClick={Copy} id="btn">
           {copyButtonText}
         </Button>
       </CopyToClipboard>
-      <Button variant="primary" onClick={visitURL}>
+      <Button variant="primary" onClick={visitURL} id="btn">
           Visit URL
         </Button>
+    </div>
     </div>
   );
 }
