@@ -1,19 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const ShortURL = require("./models/db.js");
-const http = require("http");
-const app = express();
-const server = http.createServer(app);
+const http = require("https");
+const dotenv = require('dotenv');
+dotenv.config();
+const main_app = express();
+const redirection_app = express();
+const server_1 = http.createServer(main_app);
+const server_2 = http.createServer(redirection_app);
 const cors = require("cors");
 const ShortUniqueId = require("short-unique-id");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 8080;
+const MAIN_PORT = process.env.MAIN_PORT || 8080;
+const REDIRECTION_PORT = process.env.REDIRECTION_PORT;
 
-const DB = "mongodb://localhost:27017/urlShortener";
+const DB = process.env.DB;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+main_app.use(bodyParser.urlencoded({ extended: true }));
+main_app.use(express.json());
+main_app.use(express.urlencoded({ extended: false }));
+
+redirection_app.use(express.json());
+redirection_app.use(express.urlencoded({ extended: false }));
+
 
 // Create Short Unique ID
 const CreateUID = new ShortUniqueId({ length: 10 });
@@ -29,11 +38,11 @@ mongoose
     console.log("Failed to connect with Database: " + err);
   });
 
-app.get("/", (req, res) => {
+main_app.get("/", (req, res) => {
   res.send("Hello Rwitesh!");
 });
 
-const io = require("socket.io")(server, {
+const io = require("socket.io")(server_1, {
   cors: {
     origin: "*",
     method: ["GET", "POST"],
@@ -57,6 +66,22 @@ io.on("connection", (socket) => {
     }
   });
 });
-server.listen(PORT, () => {
-  console.log(`Server is listening on: http://localhost:${PORT}`);
+
+
+redirection_app.get("/", (req, res) => {
+  res.send("Unique id is missing from URL!")
+});
+
+redirection_app.get("/:id", (req, res) => {
+  ShortURL.findOne({ uID: req.params.id }, function (err, db) {
+      res.redirect(db.fullURL)
+  });
+});
+
+
+server_1.listen(MAIN_PORT, () => {
+  console.log(`Main Server is listening on: http://localhost:${MAIN_PORT}`);
+});
+server_2.listen(REDIRECTION_PORT, () => {
+  console.log(`Redirection Server is listening on: http://localhost:${REDIRECTION_PORT}`);
 });

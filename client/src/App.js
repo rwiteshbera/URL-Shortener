@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const serverURL = "http://localhost:8080/";
-const redirectionURL = "http://localhost:5000/";
+const redirectionURL = "http://localhost:6000/";
 
 var socket = io(serverURL);
 
