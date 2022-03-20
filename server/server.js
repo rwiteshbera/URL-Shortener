@@ -4,24 +4,19 @@ const ShortURL = require("./models/db.js");
 const http = require("http");
 const dotenv = require('dotenv');
 dotenv.config();
-const main_app = express();
-const redirection_app = express();
-const main_server = http.createServer(main_app);
-const redirection_server = http.createServer(redirection_app);
+
+const app = express();
+const server = http.createServer(app);
 const cors = require("cors");
 const ShortUniqueId = require("short-unique-id");
 const bodyParser = require("body-parser");
-const MAIN_PORT = process.env.MAIN_PORT || 8080;
-const REDIRECTION_PORT = process.env.REDIRECTION_PORT || 6000;
+const PORT = process.env.PORT || 8080;
 
 const DB = process.env.DB || "mongodb://localhost:27017/urlshortener";
 
-main_app.use(bodyParser.urlencoded({ extended: true }));
-main_app.use(express.json());
-main_app.use(express.urlencoded({ extended: false }));
-
-redirection_app.use(express.json());
-redirection_app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 
 // Create Short Unique ID
@@ -40,16 +35,12 @@ mongoose
   });
 
 
-main_app.get("/", (req, res) => {
-  res.send("Hello Rwitesh!");
-});
-
 // Redirection Server
-redirection_app.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Unique id is missing from URL!")
 });
 
-redirection_app.get("/:id", (req, res) => {
+app.get("/:id", (req, res) => {
   try {
     ShortURL.findOne({ uID: req.params.id }, function (err, db) {
       res.redirect(db.fullURL)
@@ -61,7 +52,7 @@ redirection_app.get("/:id", (req, res) => {
 
 
 // Creating Realtime Connection to provide short link instantly to client
-const io = require("socket.io")(main_server, {
+const io = require("socket.io")(server, {
   cors: {
     origin: "*",
     method: ["GET", "POST"],
@@ -87,10 +78,6 @@ io.on("connection", (socket) => {
 });
 
 
-// Main Server
-main_server.listen(MAIN_PORT, () => {
-  console.log(`Main Server is listening on: http://localhost:${MAIN_PORT}`);
-});
-redirection_server.listen(REDIRECTION_PORT, () => {
-  console.log(`Redirection Server is listening on: http://localhost:${REDIRECTION_PORT}`);
+server.listen(PORT, () => {
+  console.log(`Redirection Server is listening on: http://localhost:${PORT}`);
 });

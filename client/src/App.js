@@ -6,10 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import io from "socket.io-client";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const MAIN_SERVER = "http://localhost:8080/";
-const REDIRECTION_SERVER = "http://localhost:6000/";
+const REDIRECTION_SERVER = "http://localhost:8080/";
 
-var socket = io(MAIN_SERVER);
+var socket = io(REDIRECTION_SERVER);
 
 function App() {
   const [inputURL, setInputURL] = useState("");
