@@ -6,10 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import io from "socket.io-client";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const serverURL = "http://localhost:8080/";
-const redirectionURL = "http://localhost:6000/";
+const MAIN_SERVER = "http://localhost:8080/";
+const REDIRECTION_SERVER = "http://localhost:6000/";
 
-var socket = io(serverURL);
+var socket = io(MAIN_SERVER);
 
 function App() {
   const [inputURL, setInputURL] = useState("");
@@ -61,7 +61,7 @@ function App() {
         
       <InputGroup className="mb-3" id="alias-form">
         <Button variant="secondary" id="button-addon1">
-          {redirectionURL}
+          {REDIRECTION_SERVER}
         </Button>
         <FormControl 
           onChange={disableUIDchange}
@@ -69,7 +69,7 @@ function App() {
         />
       </InputGroup>
 
-      <CopyToClipboard text={`${redirectionURL}${showShortedURL}`}>
+      <CopyToClipboard text={`${REDIRECTION_SERVER}${showShortedURL}`}>
         <Button variant="primary" onClick={Copy}>
           {copyButtonText}
         </Button>

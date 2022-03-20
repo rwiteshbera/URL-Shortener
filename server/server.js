@@ -1,20 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const ShortURL = require("./models/db.js");
-const http = require("https");
+const http = require("http");
 const dotenv = require('dotenv');
 dotenv.config();
 const main_app = express();
 const redirection_app = express();
-const server_1 = http.createServer(main_app);
-const server_2 = http.createServer(redirection_app);
+const main_server = http.createServer(main_app);
+const redirection_server = http.createServer(redirection_app);
 const cors = require("cors");
 const ShortUniqueId = require("short-unique-id");
 const bodyParser = require("body-parser");
 const MAIN_PORT = process.env.MAIN_PORT || 8080;
-const REDIRECTION_PORT = process.env.REDIRECTION_PORT;
+const REDIRECTION_PORT = process.env.REDIRECTION_PORT || 6000;
 
-const DB = process.env.DB;
+const DB = process.env.DB || "mongodb://localhost:27017/urlshortener";
 
 main_app.use(bodyParser.urlencoded({ extended: true }));
 main_app.use(express.json());
@@ -27,6 +27,7 @@ redirection_app.use(express.urlencoded({ extended: false }));
 // Create Short Unique ID
 const CreateUID = new ShortUniqueId({ length: 10 });
 
+// Connect to Database
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -38,11 +39,29 @@ mongoose
     console.log("Failed to connect with Database: " + err);
   });
 
+
 main_app.get("/", (req, res) => {
   res.send("Hello Rwitesh!");
 });
 
-const io = require("socket.io")(server_1, {
+// Redirection Server
+redirection_app.get("/", (req, res) => {
+  res.send("Unique id is missing from URL!")
+});
+
+redirection_app.get("/:id", (req, res) => {
+  try {
+    ShortURL.findOne({ uID: req.params.id }, function (err, db) {
+      res.redirect(db.fullURL)
+  });
+  }catch(e) {
+    console.log(e)
+  }
+});
+
+
+// Creating Realtime Connection to provide short link instantly to client
+const io = require("socket.io")(main_server, {
   cors: {
     origin: "*",
     method: ["GET", "POST"],
@@ -59,7 +78,7 @@ io.on("connection", (socket) => {
           console.log("Data stored successfully!");
         })
         .catch((e) => {
-          console.log("Something went wrong. Data cannot be submitted!");
+          console.log("Something went wrong. Data cannot be submitted!" + e);
         });
     } catch (e) {
       console.log(e);
@@ -68,20 +87,10 @@ io.on("connection", (socket) => {
 });
 
 
-redirection_app.get("/", (req, res) => {
-  res.send("Unique id is missing from URL!")
-});
-
-redirection_app.get("/:id", (req, res) => {
-  ShortURL.findOne({ uID: req.params.id }, function (err, db) {
-      res.redirect(db.fullURL)
-  });
-});
-
-
-server_1.listen(MAIN_PORT, () => {
+// Main Server
+main_server.listen(MAIN_PORT, () => {
   console.log(`Main Server is listening on: http://localhost:${MAIN_PORT}`);
 });
-server_2.listen(REDIRECTION_PORT, () => {
+redirection_server.listen(REDIRECTION_PORT, () => {
   console.log(`Redirection Server is listening on: http://localhost:${REDIRECTION_PORT}`);
 });
